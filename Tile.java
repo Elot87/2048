@@ -7,11 +7,18 @@
  * access the tile's information. These getter methods ensure controlled access.
  */
 
+
 public class Tile {
 	private int val;
 	private String color;	// tiles of different values are different colors
 	
-	public void Tile(int val) {
+	/*
+	 * Constructs a new tile with a given value and assigns a color to the tile
+	 * based on its value.
+	 * 
+	 * @param val The value (int) of the tile.
+	 */
+	public Tile(int val) {
 		this.val = val;
 		
 		// determine color of tile based on val
