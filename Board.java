@@ -25,6 +25,15 @@ public class Board {
 		
 		System.out.println("-----TEST 3-----");
 		testShiftRight();
+
+		System.out.println("-----Test 4-----");
+		testShiftLeft();
+
+		System.out.println("-----Test 5-----");
+		testShiftUp();
+
+		System.out.println("-----Test 6-----");
+		testShiftDown();
 	}
 
 	private static void testAddRandomTile(){
@@ -66,9 +75,78 @@ public class Board {
 		if (currentSum != testBoard.boardValue()) System.out.println("The sum of values on the board changed post-update");
 		
 		if (testBoard.tileCount() != 5) System.out.println("After shifting right, the tile count was not 5");
+		
 
+		testBoard.printBoard();
+	}
 
+	private static void testShiftLeft(){
+		Board testBoard = new Board();
+		// regular merging
+		testBoard.add(new Tile(2), 0, 0);
+		testBoard.add(new Tile(2), 0, 1);
 
+		// testing the "no multiple merges on the same spot" rule
+		testBoard.add(new Tile(4), 1, 3);
+		testBoard.add(new Tile(2), 1, 2);
+		testBoard.add(new Tile(2), 1, 1);
+		
+		// regular not-merging
+		testBoard.add(new Tile(2), 2, 3);
+		testBoard.add(new Tile(4), 2, 2);
+
+		int currentSum = testBoard.boardValue();
+		testBoard.update("left");
+		// this test will become invalid once the update function is finished
+		if (currentSum != testBoard.boardValue()) System.out.println("The sum of values on the board chaned post-update"); // because random tile addition
+		if (testBoard.tileCount() != 5) System.out.println("After shifting right, the tile count was not 5");
+		
+		testBoard.printBoard();
+	}
+
+	private static void testShiftUp(){
+		Board testBoard = new Board();
+		// regular merging
+		testBoard.add(new Tile(2), 0, 0);
+		testBoard.add(new Tile(2), 1, 0);
+
+		// testing the "no multiple merges on the same spot" rule
+		testBoard.add(new Tile(4), 3, 1);
+		testBoard.add(new Tile(2), 2, 1);
+		testBoard.add(new Tile(2), 1, 1);
+
+		// regular not-merging
+		testBoard.add(new Tile(2), 3, 2);
+		testBoard.add(new Tile(4), 2, 2);
+
+		int currentSum = testBoard.boardValue();
+		testBoard.update("up");
+		// this test will become invalid once the update function is finished
+		if (currentSum != testBoard.boardValue()) System.out.println("The sum of values on the board changed post-update"); // because random tile addition
+		if (testBoard.tileCount() != 5) System.out.println("After shifting right, the tile count was not 5");
+		testBoard.printBoard();
+	}
+
+	private static void testShiftDown(){
+		Board testBoard = new Board();
+		// regular merging
+		testBoard.add(new Tile(2), 0, 0);
+		testBoard.add(new Tile(2), 1, 0);
+
+		// testing the 'no multiple merges on the same spot" rule
+		testBoard.add(new Tile(4), 3, 1);
+		testBoard.add(new Tile(2), 2, 1);
+		testBoard.add(new Tile(2), 1, 1);
+
+		// regular not-merging
+		testBoard.add(new Tile(2), 3, 2);
+		testBoard.add(new Tile(4), 2, 2);
+
+		int currentSum = testBoard.boardValue();
+		// this test will become invalid once the update function is finished
+		if (currentSum != testBoard.boardValue()) System.out.println("The sum of values on the board changed post-update");
+		if (testBoard.tileCount() !=5) System.out.println("After shifting right, the tile count was not 5");
+		testBoard.printBoard();
 	}
 
 	public Board(){
@@ -218,10 +296,106 @@ public class Board {
 		}	
 	}
 
-	private void shiftLeft(){}
-	private void shiftUp(){}
-	private void shiftDown(){}
+	private void shiftLeft(){
+		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
+		int cur;
+		Tile tile;
 
+		// let x be the index of the current column
+		for (int x=1; x<SIZE; x++){
+			// let y be the index of the current row
+			for (int y=0; y<SIZE; y++){
+				
+				// is there a Tile at the current coordinate?
+				if (!emptyAt(y, x)){
+					
+					// until there is nolonger somewhere to move the tile
+					for (cur = x; exists(y, cur-1); cur--){
+						//check if we can move it
+						if (emptyAt(y, cur-1)){
+							tile = new Tile(valAt(y,cur));
+							remove(y,cur); // moving consists of deleting
+							add(tile, y, cur-1); // and placing (original object dies, but that is ok)
+						} else {
+							if ((valAt(y, cur) == valAt(y, cur-1)) && !mergeBoard[y][cur-1]){
+								mergeBoard[y][cur-1] = true; // we can no longer merge again on this square during this shift
+								tile = new Tile(valAt(y, cur) + valAt(y, cur-1)); // new tile, twice as big
+								remove(y, cur); // merging consists of deleting the old tiles
+								add(tile, y, cur-1); // and replacing the right one with the doubled tile.
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void shiftUp(){
+		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
+		int cur;
+		Tile tile;
+
+		// let x be the index of the current column
+		for (int x=0; x<SIZE; x++){
+			// let y be the index of the current row
+			for (int y=1; y<SIZE; y++){
+			
+				// is there a Tile at the current coordinate?
+				if (!emptyAt(y, x)){
+					
+					// until there is nolonger somewhere to move the tile
+					for (cur = y; exists(cur-1, x); cur--){
+						// check if we can move it
+						if (emptyAt(cur-1, x)){
+							tile = new Tile(valAt(cur, x));
+							remove(cur, x); // moving consists of deleting
+							add(tile, cur-1, x); // and placing (original object dies, but that is ok)
+						} else { 
+							if ((valAt(cur,x) == valAt(cur-1, x)) && !mergeBoard[cur-1][x]){
+								mergeBoard[cur-1][x] = true; // we can nolonger merge again on this square during this shift
+								tile = new Tile(valAt(cur, x) + valAt(cur-1, x)); // new tile, twice as big
+								remove(cur, x); // merging consists of deleting the old tiles
+								add(tile, cur-1, x); // and replacing the right one with the doubled tile
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void shiftDown(){
+		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
+		int cur;
+		Tile tile;
+
+		// let x be the index of the current column
+		for (int x=0; x<SIZE; x++){
+			// let y be the index of the current row
+			for (int y=SIZE-2; y>=0; y--){
+				
+				// is there a Tile at the current coordinate?
+				if (!emptyAt(y, x)){
+					
+					// until there is nolonger somewher to move the tile
+					for (cur = y; exists(cur+1, x); cur++){
+						if (emptyAt(cur+1, x)){
+							tile = new Tile(valAt(cur, x));
+							remove(cur, x); // moving consists of deleting
+							add(tile, cur+1, x); // moving consists of deleting
+						} else {
+							if ((valAt(cur, x) == valAt(cur+1, x)) && !mergeBoard[cur+1][x]){
+								mergeBoard[cur+1][x] = true; // we can nolonger merge again on this square during this shift
+								tile = new Tile(valAt(cur, x) + valAt(cur+1, x)); // new tile, twice as big
+								remove(cur, x); // merging consists of deleting the old tiles
+								add(tile, cur+1, x); // and replacing the right one with the doubled tile
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	private void remove(int y, int x){
 		board[y][x] = null;
 	}
