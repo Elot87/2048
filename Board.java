@@ -157,6 +157,18 @@ public class Board {
 		addRandomTile();
 		
 	}
+
+	// method for when user wants to control size of board
+	public Board(int size){
+		SIZE = size;
+		TILES = size*size;
+		board = new Tile[SIZE][SIZE];
+		
+		// Adds the first two tiles
+		addRandomTile();
+		addRandomTile();
+		
+	}
 	
 	// checks if board is empty at position in row major order
 	// @pre 0 <= num < 16
