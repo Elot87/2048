@@ -16,7 +16,28 @@ public class View extends JFrame {
 	/*
 	 * Constructs the GUI for the current 2048 game.
 	 */
+
+	private enum Direction {
+		LEFT, UP, RIGHT, DOWN
+	}
+	
 	public View() {
+		board = new Board();
+		
+		// configure main frame
+		setTitle("2048 Game");
+		setSize(600, 450);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// display board and tiles
+		
+		// arrow key logic
+		
+	}
+
+	public View(int size) {
+		// add a way to change the SIZE variable
+		
 		board = new Board();
 		
 		// configure main frame
@@ -39,4 +60,14 @@ public class View extends JFrame {
 			gui.setVisible(true);
 		});
 	}
+
+	private void shiftTiles(Direction D) {
+		
+	}
+
+	private boolean check2048() {
+
+	}
+
+	
 }
