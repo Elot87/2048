@@ -9,8 +9,8 @@ import java.util.Random;
 
 
 public class Board {
-	private final int SIZE = 4;
-	private final int TILES = SIZE * SIZE;
+	private final int SIZE;
+	private final int TILES;
 	private final int[] RANDOM_DISTRIBUTION = {2,2,2,4}; // 75% chance to be a 2
 	private Tile[][] board;
 	
@@ -150,6 +150,8 @@ public class Board {
 	}
 
 	public Board(){
+		SIZE = 4;
+		TILES = SIZE*SIZE; 
 		board = new Tile[SIZE][SIZE];
 		
 		// Adds the first two tiles
@@ -266,6 +268,7 @@ public class Board {
 				break;
 			default:
 				//this should not occur
+				System.out.println("Error: wasn't able to update!");
 				return;
 
 		}
@@ -440,6 +443,10 @@ public class Board {
 			System.out.print("\n");
 		}
 		
+	}
+	
+	public int getSize() {
+		return SIZE;
 	}
 
 
