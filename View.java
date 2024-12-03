@@ -83,6 +83,33 @@ public class View extends JFrame {
 	    playSound("/Users/yashi/git/2048/mixkit-epic-orchestra-transition-2290.wav"); // play sound
         refreshBoard(); //update the UI after a move
 	}
+
+	private void playSound(String soundFile) {
+	    try {
+	        // Load the sound file
+	        File file = new File(soundFile);
+	        if (!file.exists()) {
+	            System.err.println("Sound file not found: " + soundFile);
+	            return;
+	        }
+
+	        // Create an AudioInputStream
+	        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file); 
+
+	        // Get a sound clip resource
+	        Clip clip = AudioSystem.getClip();
+	        clip.open(audioStream);
+
+	        // Play the clip
+	        clip.start();
+	    } catch (UnsupportedAudioFileException e) {
+	        System.err.println("Unsupported audio file: " + soundFile);
+	    } catch (IOException e) {
+	        System.err.println("Error reading audio file: " + soundFile);
+	    } catch (LineUnavailableException e) {
+	        System.err.println("Audio line unavailable for: " + soundFile);
+	    }
+	}
 	public static void main(String[] args) {
 		View gui = new View(4);
 		gui.setGameBoard();
