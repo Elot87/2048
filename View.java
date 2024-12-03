@@ -49,12 +49,40 @@ public class View extends JFrame {
 		setTitle("2048 Game");
 		setSize(size*100, size*100);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		setFocusable(true);
+
+	    // add KeyListener for arrow keys
+	    addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	            // Handle key press
+	            handleKeyPress(e.getKeyCode());
+	        }
+	    });
 	}
-	
-	/*
-	 * 
-	 */
+
+	// method to handle key presses
+	private void handleKeyPress(int keyCode) {
+	    switch (keyCode) {
+	        case KeyEvent.VK_LEFT:
+	            board.update("left");
+	            break;
+	        case KeyEvent.VK_RIGHT:
+	            board.update("right");
+	            break;
+	        case KeyEvent.VK_UP:
+	            board.update("up");
+	            break;
+	        case KeyEvent.VK_DOWN:
+	            board.update("down");
+	            break;
+	        default:
+	            return; // ignore if some other key is added
+	    }
+		//need to figure out how to still play music if its not my computer 
+	    playSound("/Users/yashi/git/2048/mixkit-epic-orchestra-transition-2290.wav"); // play sound
+        refreshBoard(); //update the UI after a move
+	}
 	public static void main(String[] args) {
 		View gui = new View(4);
 		gui.setGameBoard();
