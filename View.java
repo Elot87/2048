@@ -9,13 +9,22 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Panel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Scanner;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
+
 
 public class View extends JFrame {
 	private Board board;
