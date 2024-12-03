@@ -84,6 +84,18 @@ public class View extends JFrame {
         refreshBoard(); //update the UI after a move
 	}
 
+	// Method to refresh the board display
+	private void refreshBoard() {
+	    Tile[][] boardPos = board.getBoardState();
+	    for (int i = 0; i < tileList.length; i++) {
+	        int value = boardPos[i / getBoardSize()][i % getBoardSize()].getVal();
+	        tileList[i].setText(value == 0 ? "" : Integer.toString(value));
+	        int currLogVal = value == 0 ? 0 : (int) (Math.log(value) / Math.log(2));
+	        tileList[i].setBackground(new Color(250 - 10 * currLogVal, 230 - 10 * currLogVal, 210 - 10 * currLogVal));
+	    }
+	    repaint();
+	}
+
 	private void playSound(String soundFile) {
 	    try {
 	        // Load the sound file
