@@ -29,16 +29,12 @@ import javax.swing.*;
 public class View extends JFrame {
 	private Board board;
 	private JLabel[] tileList;
-	private JPanel[] panelList = new JPanel[4];
+	private JPanel[] panelList = new JPanel[5];
 	private int boardSize;
 	
 	/*
 	 * Constructs the GUI for the current 2048 game.
 	 */
-
-	private enum Direction {
-		LEFT, UP, RIGHT, DOWN
-	}
 
 	public View(int size) {
 		// add a way to change the SIZE variable
@@ -47,7 +43,7 @@ public class View extends JFrame {
 		boardSize = size*100;
 		// configure main frame
 		setTitle("2048 Game");
-		setSize(size*100, size*100);
+		setSize(size*100, size*100 + 100);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setFocusable(true);
 
@@ -63,22 +59,24 @@ public class View extends JFrame {
 
 	// method to handle key presses
 	private void handleKeyPress(int keyCode) {
+    	boolean gameOver;
 	    switch (keyCode) {
 	        case KeyEvent.VK_LEFT:
-	            board.update("left");
+	            gameOver = !board.update("left");
 	            break;
 	        case KeyEvent.VK_RIGHT:
-	            board.update("right");
+	            gameOver = !board.update("right");
 	            break;
 	        case KeyEvent.VK_UP:
-	            board.update("up");
+	            gameOver = !board.update("up");
 	            break;
 	        case KeyEvent.VK_DOWN:
-	            board.update("down");
+	            gameOver = !board.update("down");
 	            break;
 	        default:
 	            return; // ignore if some other key is added
 	    }
+	    if (gameOver) {System.out.println(board.getScore());}
 		//need to figure out how to still play music if its not my computer 
 	    playSound("/Users/yashi/git/2048/mixkit-epic-orchestra-transition-2290.wav"); // play sound
         refreshBoard(); //update the UI after a move
@@ -128,9 +126,17 @@ public class View extends JFrame {
 		gui.setMainMenu();
 		gui.setLeaderBoard();
 		gui.setUsernameEntry();
-		gui.add(gui.getPanelList()[3]);
+		gui.setBottomBar();
+		gui.add(gui.getPanelList()[1]);
+		gui.add(gui.getPanelList()[4]);
 		gui.setVisible(true);
 		
+	}
+	
+	private void setBottomBar() {
+		JPanel bottomBar = new JPanel();
+		bottomBar.setBounds(0, boardSize, boardSize, 100);
+		panelList[4] = bottomBar;
 	}
 	
 	// need to add space for instruction on how to play
@@ -144,7 +150,7 @@ public class View extends JFrame {
 		for (int i = 0; i < getBoardSize()*getBoardSize(); i++) {
 			 tile = new JLabel(Integer.toString(boardPos[i/getBoardSize()][i%getBoardSize()].getVal()));
 			 tile.setSize(100, 100);
-			 if (boardPos[i/getBoardSize()][i%getBoardSize()].getVal() == 0) {currLogVal = 0;}
+			 if (boardPos[i/getBoardSize()][i%getBoardSize()].getVal() == 0) {currLogVal = 0; tile.setText("");}
 			 else {currLogVal = (int) (Math.log(boardPos[i/getBoardSize()][i%getBoardSize()].getVal())/Math.log(2));}
 			 
 			 tile.setBackground(new Color(250 - 10*currLogVal, 230 - 10*currLogVal, 210 - 10*currLogVal));
@@ -250,10 +256,6 @@ public class View extends JFrame {
 	
 	private JLabel[] getTileList() {
 		return tileList;
-	}
-
-	private void shiftTiles(Direction D) {
-		
 	}
 
 	private boolean check2048() {

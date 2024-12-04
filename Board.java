@@ -217,8 +217,6 @@ public class Board {
 				return true;
 			}
 		}
-
-
 		return false;
 	}
 
@@ -252,7 +250,7 @@ public class Board {
 		return boardState;
 	}
 	// precondition: direction in {"right", "left", "up", "down"}
-	public void update(String direction){
+	public boolean update(String direction){
 		switch (direction){
 			case "right":
 				shiftRight();
@@ -269,9 +267,17 @@ public class Board {
 			default:
 				//this should not occur
 				System.out.println("Error: wasn't able to update!");
-				return;
-
+				return false;
 		}
+		return addRandomTile();
+	}
+	
+	public int getScore() {
+		int score = 0;
+		for (int i = 0; i < TILES; i++) {
+			score += board[i/SIZE][i%SIZE].getVal();
+		}
+		return score;
 	}
 	
 	// for future reference. please never use x and y. use rows and columns. x and y gets real confusing real fast
@@ -308,7 +314,7 @@ public class Board {
 					}
 				}
 			}
-		}	
+		}
 	}
 
 	private void shiftLeft(){

@@ -1,1 +1,4 @@
 bruised_bananas, 3000
+wildcats, 2800
+yankees , 2750
+cardinals , 2590
