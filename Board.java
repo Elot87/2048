@@ -275,7 +275,9 @@ public class Board {
 	public int getScore() {
 		int score = 0;
 		for (int i = 0; i < TILES; i++) {
-			score += board[i/SIZE][i%SIZE].getVal();
+			if (board[i/SIZE][i%SIZE] != null) {
+				score += board[i/SIZE][i%SIZE].getVal();
+			}
 		}
 		return score;
 	}
@@ -453,6 +455,23 @@ public class Board {
 	
 	public int getSize() {
 		return SIZE;
+	}
+	
+	public int gameOverCode() {
+		
+		for (int i = 0; i < TILES; i++) {
+			if (valAt(i/SIZE, i%SIZE) == 2048) {
+				return 1;
+			} 
+			if (exists(i/SIZE - 1, i%SIZE) && valAt(i/SIZE, i%SIZE) == valAt(i/SIZE -1, i%SIZE)) {
+				return 0;
+			} else if (exists(i/SIZE, i%SIZE - 1) && valAt(i/SIZE, i%SIZE) == valAt(i/SIZE , i%SIZE - 1)) {
+				return 0;
+			} else if (valAt(i/SIZE, i%SIZE) == 0) {return 0;}
+		}
+		return -1;
+		
+		
 	}
 
 
