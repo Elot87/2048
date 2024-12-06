@@ -2,4 +2,6 @@ bruised_bananas, 3000
 wildcats, 2800
 yankees , 2750
 cardinals , 2590
+sillygoose,638
 baby,238
+sillygoose,638
