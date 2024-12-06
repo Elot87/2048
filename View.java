@@ -46,57 +46,57 @@ public class View extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-		// method to handle key presses
-private void handleKeyPress(int keyCode) {
-    int gameOver;
-    switch (keyCode) {
-        case KeyEvent.VK_LEFT:
-            if (board.update("left")) {
-                playSound("sounds/valid move.wav");
-            } else {
-                playSound("sounds/error.wav");
-            }
-            break;
-        case KeyEvent.VK_RIGHT:
-            if (board.update("right")) {
-                playSound("sounds/valid move.wav");
-            } else {
-                playSound("sounds/error.wav");
-            }
-            break;
-        case KeyEvent.VK_UP:
-            if (board.update("up")) {
-                playSound("sounds/valid move.wav");
-            } else {
-                playSound("sounds/error.wav");
-            }
-            break;
-        case KeyEvent.VK_DOWN:
-            if (board.update("down")) {
-                playSound("sounds/valid move.wav");
-            } else {
-                playSound("sounds/error.wav");
-            }
-            break;
-        default:
-            playSound("sounds/error.wav"); // Error sound if wrong key is pressed
-    }
+	// method to handle key presses
+	private void handleKeyPress(int keyCode) {
+		int gameOver;
+		switch (keyCode) {
+			case KeyEvent.VK_LEFT:
+				if (board.update("left")) {
+					playSound("sounds/valid move.wav");
+				} else {
+					playSound("sounds/error.wav");
+				}
+				break;
+			case KeyEvent.VK_RIGHT:
+				if (board.update("right")) {
+					playSound("sounds/valid move.wav");
+				} else {
+					playSound("sounds/error.wav");
+				}
+				break;
+			case KeyEvent.VK_UP:
+				if (board.update("up")) {
+            	playSound("sounds/valid move.wav");
+				} else {
+					playSound("sounds/error.wav");
+				}
+				break;
+			case KeyEvent.VK_DOWN:
+				if (board.update("down")) {
+					playSound("sounds/valid move.wav");
+				} else {
+					playSound("sounds/error.wav");
+				}
+				break;
+			default:
+				playSound("sounds/error.wav"); // Error sound if wrong key is pressed
+		}
     
-    // Check game over condition
-    gameOver = board.gameOverCode();
-    if (gameOver != 0) {
-        if (gameOver == 1) {
-            playSound("sounds/game won.wav");
-            setUsernameEntry(true);
-        } else if (gameOver == -1) {
-            playSound("sounds/game over.wav");
-            setUsernameEntry(false);
-        }
-        switchPanels(2);
-    }
+		// Check game over condition
+		gameOver = board.gameOverCode();
+		if (gameOver != 0) {
+			if (gameOver == 1) {
+				playSound("sounds/game won.wav");
+				setUsernameEntry(true);
+			} else if (gameOver == -1) {
+				playSound("sounds/game over.wav");
+				setUsernameEntry(false);
+			}
+			switchPanels(2);
+		}
     
-    refreshBoard(); // Update the UI after a move
-}
+		refreshBoard(); // Update the UI after a move
+	}
 
 	// Method to refresh the board display
 	private void refreshBoard() {
@@ -316,8 +316,21 @@ private void handleKeyPress(int keyCode) {
 		username.add(scoreLabel);
 		
 		if (pos != -1) {
+			String numSuffix;
+			if (pos % 10 == 1) {
+				numSuffix = "st";
+			}
+			else if (pos % 10 == 2) {
+				numSuffix = "nd";
+			}
+			else if (pos % 10 == 3) {
+				numSuffix = "rd";
+			}
+			else {
+				numSuffix = "th";
+			}
 			
-			JLabel congrats = new JLabel("Congratulations! You have the" + pos + " highest score!");
+			JLabel congrats = new JLabel("Congratulations! You have the" + pos + numSuffix + " highest score!");
 			JLabel enter = new JLabel("Please enter your username to save it in leaderboard");
 			JTextField entryField = new JTextField();
 			
