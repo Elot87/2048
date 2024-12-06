@@ -47,53 +47,57 @@ public class View extends JFrame {
 	}
 
 		// method to handle key presses
-	private void handleKeyPress(int keyCode) {
-	    int gameOver;
-	    switch (keyCode) {
-	        case KeyEvent.VK_LEFT:
-	            if (board.update("left")) {
-	                playSound("/Users/yashi/git/2048/valid move.wav");
-	            } else {
-	                playSound("/Users/yashi/git/2048/error.wav");
-	            }
-	            break;
-	        case KeyEvent.VK_RIGHT:
-	            if (board.update("right")) {
-	                playSound("/Users/yashi/git/2048/valid move.wav");
-	            } else {
-	                playSound("/Users/yashi/git/2048/error.wav");
-	            }
-	            break;
-	        case KeyEvent.VK_UP:
-	            if (board.update("up")) {
-	                playSound("/Users/yashi/git/2048/valid move.wav");
-	            } else {
-	                playSound("/Users/yashi/git/2048/error.wav");
-	            }
-	            break;
-	        case KeyEvent.VK_DOWN:
-	            if (board.update("down")) {
-	                playSound("/Users/yashi/git/2048/valid move.wav");
-	            } else {
-	                playSound("/Users/yashi/git/2048/error.wav");
-	            }
-	            break;
-	        default:
-	        	playSound("/Users/yashi/git/2048/error.wav"); // error sound if wrong key is pressed
-	    }
-	    gameOver = board.gameOverCode();
-	    if (gameOver != 0) {
-	        if (gameOver == 1) {
-	            playSound("/Users/yashi/git/2048/game won.wav");
-	            setUsernameEntry(true);
-	        } else if (gameOver == -1) {
-	            playSound("/Users/yashi/git/2048/game over.wav");
-	            setUsernameEntry(false);
-	        }
-	        switchPanels(2);
-	    }
-	    refreshBoard(); // update the UI after a move
-	}
+private void handleKeyPress(int keyCode) {
+    int gameOver;
+    switch (keyCode) {
+        case KeyEvent.VK_LEFT:
+            if (board.update("left")) {
+                playSound("sounds/valid move.wav");
+            } else {
+                playSound("sounds/error.wav");
+            }
+            break;
+        case KeyEvent.VK_RIGHT:
+            if (board.update("right")) {
+                playSound("sounds/valid move.wav");
+            } else {
+                playSound("sounds/error.wav");
+            }
+            break;
+        case KeyEvent.VK_UP:
+            if (board.update("up")) {
+                playSound("sounds/valid move.wav");
+            } else {
+                playSound("sounds/error.wav");
+            }
+            break;
+        case KeyEvent.VK_DOWN:
+            if (board.update("down")) {
+                playSound("sounds/valid move.wav");
+            } else {
+                playSound("sounds/error.wav");
+            }
+            break;
+        default:
+            playSound("sounds/error.wav"); // Error sound if wrong key is pressed
+    }
+    
+    // Check game over condition
+    gameOver = board.gameOverCode();
+    if (gameOver != 0) {
+        if (gameOver == 1) {
+            playSound("sounds/game won.wav");
+            setUsernameEntry(true);
+        } else if (gameOver == -1) {
+            playSound("sounds/game over.wav");
+            setUsernameEntry(false);
+        }
+        switchPanels(2);
+    }
+    
+    refreshBoard(); // Update the UI after a move
+}
+
 	// Method to refresh the board display
 	private void refreshBoard() {
 	    Tile[][] boardPos = board.getBoardState();
