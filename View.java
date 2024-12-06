@@ -46,40 +46,54 @@ public class View extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	// method to handle key presses
+		// method to handle key presses
 	private void handleKeyPress(int keyCode) {
-		// if two sound files one for invalid move other for valid move
-		// maybe two more sound affects for when game over
-		
-    	int gameOver;
+	    int gameOver;
 	    switch (keyCode) {
 	        case KeyEvent.VK_LEFT:
-	            board.update("left");
+	            if (board.update("left")) {
+	                playSound("/Users/yashi/git/2048/valid move.wav");
+	            } else {
+	                playSound("/Users/yashi/git/2048/error.wav");
+	            }
 	            break;
 	        case KeyEvent.VK_RIGHT:
-	            board.update("right");
+	            if (board.update("right")) {
+	                playSound("/Users/yashi/git/2048/valid move.wav");
+	            } else {
+	                playSound("/Users/yashi/git/2048/error.wav");
+	            }
 	            break;
 	        case KeyEvent.VK_UP:
-	            board.update("up");
+	            if (board.update("up")) {
+	                playSound("/Users/yashi/git/2048/valid move.wav");
+	            } else {
+	                playSound("/Users/yashi/git/2048/error.wav");
+	            }
 	            break;
 	        case KeyEvent.VK_DOWN:
-	            board.update("down");
+	            if (board.update("down")) {
+	                playSound("/Users/yashi/git/2048/valid move.wav");
+	            } else {
+	                playSound("/Users/yashi/git/2048/error.wav");
+	            }
 	            break;
 	        default:
-	            return; // ignore if some other key is added
+	        	playSound("/Users/yashi/git/2048/error.wav"); // error sound if wrong key is pressed
 	    }
 	    gameOver = board.gameOverCode();
 	    if (gameOver != 0) {
-	    	if (gameOver == 1) {setUsernameEntry(true);}
-		    else if (gameOver == -1) {setUsernameEntry(false);}
-	    	switchPanels(2);
+	        if (gameOver == 1) {
+	            playSound("/Users/yashi/git/2048/game won.wav");
+	            setUsernameEntry(true);
+	        } else if (gameOver == -1) {
+	            playSound("/Users/yashi/git/2048/game over.wav");
+	            setUsernameEntry(false);
+	        }
+	        switchPanels(2);
 	    }
-	    
-		//need to figure out how to still play music if its not my computer 
-	    playSound("sounds/mixkit-epic-orchestra-transition-2290.wav"); // play sound
-        refreshBoard(); //update the UI after a move
+	    refreshBoard(); // update the UI after a move
 	}
-
 	// Method to refresh the board display
 	private void refreshBoard() {
 	    Tile[][] boardPos = board.getBoardState();
