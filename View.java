@@ -70,8 +70,12 @@ public class View extends JFrame {
 	    }
 	    gameOver = board.gameOverCode();
 	    if (gameOver != 0) {
-	    	if (gameOver == 1) {setUsernameEntry(true);}
-		    else if (gameOver == -1) {setUsernameEntry(false);}
+	    	if (gameOver == 1) {
+	    		setUsernameEntry(true);
+	    	}
+		    else if (gameOver == -1) {
+		    	setUsernameEntry(false);
+		    }
 	    	switchPanels(2);
 	    }
 	    
@@ -153,17 +157,19 @@ public class View extends JFrame {
 		tileList = new JLabel[getBoardSize()*getBoardSize()];
 		Tile[][] boardPos = board.getBoardState();
 		for (int i = 0; i < getBoardSize()*getBoardSize(); i++) {
-			 tile = new JLabel(Integer.toString(boardPos[i/getBoardSize()][i%getBoardSize()].getVal()));
-			 tile.setSize(100, 100);
-			 if (boardPos[i/getBoardSize()][i%getBoardSize()].getVal() == 0) {currLogVal = 0; tile.setText("");}
-			 else {currLogVal = (int) (Math.log(boardPos[i/getBoardSize()][i%getBoardSize()].getVal())/Math.log(2));}
+			tile = new JLabel(Integer.toString(boardPos[i/getBoardSize()][i%getBoardSize()].getVal()));
+			tile.setSize(100, 100);
+			if (boardPos[i/getBoardSize()][i%getBoardSize()].getVal() == 0) {
+				currLogVal = 0; tile.setText("");
+			}
+			else {currLogVal = (int) (Math.log(boardPos[i/getBoardSize()][i%getBoardSize()].getVal())/Math.log(2));}
 			 
-			 tile.setBackground(new Color(250 - 10*currLogVal, 230 - 10*currLogVal, 210 - 10*currLogVal));
-			 tile.setOpaque(true);
-			 tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-			 tile.setHorizontalAlignment(SwingConstants.CENTER);
-			 gameBoard.add(tile);
-			 tileList[i] = tile;
+			tile.setBackground(new Color(250 - 10*currLogVal, 230 - 10*currLogVal, 210 - 10*currLogVal));
+			tile.setOpaque(true);
+			tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+			tile.setHorizontalAlignment(SwingConstants.CENTER);
+			gameBoard.add(tile);
+			tileList[i] = tile;
 		}
 		
 		gameBoard.setFocusable(true);
@@ -209,7 +215,9 @@ public class View extends JFrame {
 		play.addActionListener(click -> {
 			try {
 	            int newSize = Integer.parseInt(sizeInput.getText());
-	            if (newSize > 8 || newSize < 4) {throw new NumberFormatException();}
+	            if (newSize > 8 || newSize < 4) {
+	            	throw new NumberFormatException();
+	            }
 	            board = new Board(newSize);
 	            boardSize = newSize*100;
 	            setGameBoard();
@@ -283,7 +291,9 @@ public class View extends JFrame {
 		JLabel go = new JLabel("Game Over");
 		go.setBounds(0, 25, boardSize, 100);
 		go.setHorizontalAlignment(SwingConstants.CENTER);
-		if (won) {go.setText("Congrats! You Win!");}
+		if (won) {
+			go.setText("Congrats! You Win!");
+		}
 		username.add(go);
 		
 		JLabel scoreLabel = new JLabel("Your score is " + score);
