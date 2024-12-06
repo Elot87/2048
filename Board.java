@@ -2,7 +2,8 @@
  * File: Board.java
  * Authors: Elliott Cepin, Yashi Gupta, Aarush Parvataneni, Alex Salgado
  * 
- * This class represents the board for our 2048. It has a default size 4x4.
+ * This class represents the board for our 2048. Size of the board is set to
+ * 4x4 by default, but is flexible enough to create boards up to 8x8.
  */
 
 import java.util.Random;
@@ -68,7 +69,7 @@ public class Board {
 		// regular not-merging
 		testBoard.add(new Tile(2), 2, 3);
 		testBoard.add(new Tile(4), 2, 2);
-		
+				
 		int currentSum = testBoard.boardValue();
 		testBoard.update("right");
 		// this test will become invalid once the update function is finished
@@ -149,6 +150,9 @@ public class Board {
 		testBoard.printBoard();
 	}
 
+	/*
+	 * 
+	 */
 	public Board(){
 		SIZE = 4;
 		TILES = SIZE*SIZE; 
@@ -161,6 +165,9 @@ public class Board {
 	}
 
 	// method for when user wants to control size of board
+	/*
+	 * 
+	 */
 	public Board(int size){
 		SIZE = size;
 		TILES = size*size;
@@ -172,84 +179,10 @@ public class Board {
 		
 	}
 	
-	// checks if board is empty at position in row major order
-	// @pre 0 <= num < 16
-	private boolean emptyAt(int num){
-		return board[num / SIZE][num % SIZE] == null;
-	}
-
-	private int boardValue(){
-		int sum =0;
-		for (int i=0; i<TILES; i++){
-			sum += valAt(i / SIZE, i % SIZE);
-		}
-		
-		return sum;
-	}
-
-	private int tileCount(){
-		int count = 0;
-		for (int i=0; i<TILES; i++){
-			if (!emptyAt(i)) count++;
-		}
-
-		return count;
-	}
-
-	private boolean emptyAt(int y, int x){
-		return board[y][x] == null;
-	}
-
-	private void addTile(Tile tile, int position){
-		this.board[position / SIZE][position % SIZE] = tile;
-	}
-	// adds a random 2 or 4 tile
-	// returns false if board is full
-	// work in progress
-	private boolean addRandomTile(){
-		Random random = new Random();
-		
-		int randint = random.nextInt(10000000) % TILES;
-		int selector = random.nextInt(10000000) % RANDOM_DISTRIBUTION.length;
-		for (int i=0; i<TILES; i++){
-			if (this.emptyAt((randint + i) % TILES)){
-				this.addTile(new Tile(RANDOM_DISTRIBUTION[selector]), (randint + i) % TILES);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean isEmpty(){
-		for (int i=0; i<TILES; i++){
-			if (!emptyAt(i)) return false;
-		}
-
-		return true;
-	}
-
-	private boolean isFull(){
-		for (int i=0; i<TILES; i++){
-			if (emptyAt(i)) return false;
-		}
-
-		return true;
-	}
-
-	// for the sake of encapsulation, we should make sure that there is no way to "set" the values of a tile
-	// The original plan was to replace with a new tile on merge, and I am still going with this plan, but I haven't looked at Tile.java
-	public Tile[][] getBoardState(){
-		Tile[][] boardState = new Tile[SIZE][SIZE];
-
-		for (int i=0; i<SIZE; i++){
-			for (int j=0; j<SIZE; j++){
-				boardState[i][j] = new Tile(valAt(i,j));
-			}
-		}
-
-		return boardState;
-	}
 	// precondition: direction in {"right", "left", "up", "down"}
+		/*
+		 * 
+		 */
 	public boolean update(String direction){
 		boolean shifted = true;
 		switch (direction){
@@ -270,11 +203,80 @@ public class Board {
 				System.out.println("Error: wasn't able to update!");
 				return false;
 		}
-		
-		if(!shifted) return true; 
+			
+		if(!shifted) {
+			return true; 
+		}
 		return addRandomTile();
 	}
 	
+	/*
+	 * 
+	 */
+	public int getSize() {
+		return SIZE;
+	}
+	
+	// for the sake of encapsulation, we should make sure that there is no way to "set" the values of a tile
+	// The original plan was to replace with a new tile on merge, and I am still going with this plan, but I haven't looked at Tile.java
+	/*
+	 * 
+	 */
+	public Tile[][] getBoardState(){
+		Tile[][] boardState = new Tile[SIZE][SIZE];
+
+		for (int i=0; i<SIZE; i++){
+			for (int j=0; j<SIZE; j++){
+				boardState[i][j] = new Tile(valAt(i,j));
+			}
+		}
+		return boardState;
+	}
+	
+	/*
+	 * 
+	 */
+	public void printBoard(){
+		int size = 5;
+		String spaces;
+		String tile;
+		for (int y = 0; y<SIZE; y++){
+			System.out.print("|");
+			for (int x=0; x<SIZE; x++){
+				spaces = "";
+				tile = "" + valAt(y, x);
+				for (int i=0; i<size; i++) spaces += " ";
+				System.out.print(" " + tile + spaces + " |");
+			}
+			System.out.print("\n");
+		}
+	}
+	
+	/*
+	 * 
+	 */
+	public int gameOverCode() {	
+		for (int i = 0; i < TILES; i++) {
+			if (valAt(i/SIZE, i%SIZE) == 2048) {
+				return 1;
+			}
+			
+			if (exists(i/SIZE - 1, i%SIZE) && valAt(i/SIZE, i%SIZE) == valAt(i/SIZE -1, i%SIZE)) { 
+				return 0;
+			}
+			else if (exists(i/SIZE, i%SIZE - 1) && valAt(i/SIZE, i%SIZE) == valAt(i/SIZE , i%SIZE - 1)) {
+				return 0;
+			}
+			else if (valAt(i/SIZE, i%SIZE) == 0) {
+				return 0;
+			}
+		}
+		return -1;
+	}
+	
+	/*
+	 * 
+	 */
 	public int getScore() {
 		int score = 0;
 		for (int i = 0; i < TILES; i++) {
@@ -284,8 +286,112 @@ public class Board {
 		}
 		return score;
 	}
+		
+		
+
+	/* PRIVATE HELPER METHODS */
 	
+	
+	
+	
+	/*
+	 * the following all kind of do the same thing, maybe we consider
+	 * removing some to avoid falling into some kind of repeated code
+	 * antipattern
+	 */
+	
+	// checks if board is empty at position in row major order
+	// @pre 0 <= num < 16
+	private boolean emptyAt(int num){
+		return board[num / SIZE][num % SIZE] == null;
+	}
+	
+	private boolean emptyAt(int y, int x){
+		return board[y][x] == null;
+	}
+	
+	private boolean isEmpty(){
+		for (int i=0; i<TILES; i++){
+			if (!emptyAt(i)) return false;
+		}
+
+		return true;
+	}
+	
+	private boolean isFull(){
+		for (int i=0; i<TILES; i++){
+			if (emptyAt(i)) return false;
+		}
+
+		return true;
+	}
+		
+	
+	
+	
+	/*
+	 * two add functions that do the same thing, we should consider removing one
+	 */
+	
+	/*
+	 * 
+	 */
+	private void add(Tile tile, int y, int x){
+		board[y][x] = tile;
+	}
+	
+	/*
+	 * 
+	 */
+	private void addTile(Tile tile, int position){
+		this.board[position / SIZE][position % SIZE] = tile;
+	}
+	
+	
+	
+	
+	// adds a random 2 or 4 tile
+	// returns false if board is full
+	// work in progress
+	/*
+	 * 
+	 */
+	private boolean addRandomTile(){
+		Random random = new Random();
+		
+		int randint = random.nextInt(10000000) % TILES;
+		int selector = random.nextInt(10000000) % RANDOM_DISTRIBUTION.length;
+		for (int i=0; i<TILES; i++){
+			if (this.emptyAt((randint + i) % TILES)){
+				this.addTile(new Tile(RANDOM_DISTRIBUTION[selector]), (randint + i) % TILES);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/*
+	 * 
+	 */
+	private void remove(int y, int x){
+		board[y][x] = null;
+	}
+
+	/*
+	 * 
+	 */
+	private int tileCount(){
+		int count = 0;
+		for (int i=0; i<TILES; i++){
+			if (!emptyAt(i)) count++;
+		}
+		return count;
+	}
+
 	// for future reference. please never use x and y. use rows and columns. x and y gets real confusing real fast
+	/*
+	 * 
+	 */
 	private boolean shiftRight(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
@@ -323,10 +429,12 @@ public class Board {
 				}
 			}
 		}
-
 		return shifted;
 	}
 
+	/*
+	 * 
+	 */
 	private boolean shiftLeft(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
@@ -361,10 +469,12 @@ public class Board {
 				}
 			}
 		}
-
 		return shifted;
 	}
 
+	/*
+	 * 
+	 */
 	private boolean shiftUp(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
@@ -404,6 +514,9 @@ public class Board {
 		return shifted;
 	}
 
+	/*
+	 * 
+	 */
 	private boolean shiftDown(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
@@ -438,63 +551,35 @@ public class Board {
 				}
 			}
 		}
-
 		return shifted;
 	}
-	private void remove(int y, int x){
-		board[y][x] = null;
-	}
-
-	private void add(Tile tile, int y, int x){
-		board[y][x] = tile;
-	}
-
-	private int valAt(int y, int x){
-		if (emptyAt(y,x)) return 0;
-		return board[y][x].getVal();
-	}
-
+	
+	/*
+	 * 
+	 */
 	private boolean exists(int y, int x){
 		return (y < SIZE && y >= 0 && x < SIZE && x >= 0);
 	}
 
-	public void printBoard(){
-		int size = 5;
-		String spaces;
-		String tile;
-		for (int y = 0; y<SIZE; y++){
-			System.out.print("|");
-			for (int x=0; x<SIZE; x++){
-				spaces = "";
-				tile = "" + valAt(y, x);
-				for (int i=0; i<size; i++) spaces += " ";
-				System.out.print(" " + tile + spaces + " |");
-			}
-			System.out.print("\n");
+	/*
+	 * 
+	 */
+	private int valAt(int y, int x){
+		if (emptyAt(y,x)) {
+			return 0;
 		}
-		
+		return board[y][x].getVal();
 	}
 	
-	public int getSize() {
-		return SIZE;
+	/*
+	 * 
+	 */
+	private int boardValue(){
+		int sum =0;
+		for (int i=0; i<TILES; i++){
+			sum += valAt(i / SIZE, i % SIZE);
+		}
+		return sum;
 	}
 	
-	public int gameOverCode() {
-		
-		for (int i = 0; i < TILES; i++) {
-			if (valAt(i/SIZE, i%SIZE) == 2048) {
-				return 1;
-			} 
-			if (exists(i/SIZE - 1, i%SIZE) && valAt(i/SIZE, i%SIZE) == valAt(i/SIZE -1, i%SIZE)) {
-				return 0;
-			} else if (exists(i/SIZE, i%SIZE - 1) && valAt(i/SIZE, i%SIZE) == valAt(i/SIZE , i%SIZE - 1)) {
-				return 0;
-			} else if (valAt(i/SIZE, i%SIZE) == 0) {return 0;}
-		}
-		return -1;
-		
-		
-	}
-
-
 }
