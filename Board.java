@@ -251,24 +251,27 @@ public class Board {
 	}
 	// precondition: direction in {"right", "left", "up", "down"}
 	public boolean update(String direction){
+		boolean shifted = true;
 		switch (direction){
 			case "right":
-				shiftRight();
+				shifted = shiftRight();
 				break;
 			case "left":
-				shiftLeft();
+				shifted = shiftLeft();
 				break;
 			case "up":
-				shiftUp();
+				shifted = shiftUp();
 				break;
 			case "down":
-				shiftDown();
+				shifted = shiftDown();
 				break;
 			default:
 				//this should not occur
 				System.out.println("Error: wasn't able to update!");
 				return false;
 		}
+		
+		if(!shifted) return true; 
 		return addRandomTile();
 	}
 	
@@ -301,6 +304,7 @@ public class Board {
 					for (cur = x; exists(y,cur+1);cur++){
 						// check if we can move it
 						if (emptyAt(y, cur+1)){
+							shifted = true;
 							tile = new Tile(valAt(y,cur));
 							remove(y,cur); // moving consists of deleting
 							add(tile, y, cur+1); // and placing (original object dies, but that is ok)	
@@ -340,6 +344,7 @@ public class Board {
 					for (cur = x; exists(y, cur-1); cur--){
 						//check if we can move it
 						if (emptyAt(y, cur-1)){
+							shifted = true;
 							tile = new Tile(valAt(y,cur));
 							remove(y,cur); // moving consists of deleting
 							add(tile, y, cur-1); // and placing (original object dies, but that is ok)
@@ -379,6 +384,7 @@ public class Board {
 					for (cur = y; exists(cur-1, x); cur--){
 						// check if we can move it
 						if (emptyAt(cur-1, x)){
+							shifted = true;
 							tile = new Tile(valAt(cur, x));
 							remove(cur, x); // moving consists of deleting
 							add(tile, cur-1, x); // and placing (original object dies, but that is ok)
@@ -415,6 +421,7 @@ public class Board {
 					// until there is nolonger somewher to move the tile
 					for (cur = y; exists(cur+1, x); cur++){
 						if (emptyAt(cur+1, x)){
+							shifted = true;
 							tile = new Tile(valAt(cur, x));
 							remove(cur, x); // moving consists of deleting
 							add(tile, cur+1, x); // moving consists of deleting
