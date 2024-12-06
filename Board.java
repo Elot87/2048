@@ -302,11 +302,11 @@ public class Board {
 	
 	// checks if board is empty at position in row major order
 	// @pre 0 <= num < 16
-	private boolean emptyAt(int num){
+	protected boolean emptyAt(int num){
 		return board[num / SIZE][num % SIZE] == null;
 	}
 	
-	private boolean emptyAt(int y, int x){
+	protected boolean emptyAt(int y, int x){
 		return board[y][x] == null;
 	}
 	
@@ -318,7 +318,7 @@ public class Board {
 		return true;
 	}
 	
-	private boolean isFull(){
+	protected boolean isFull(){
 		for (int i=0; i<TILES; i++){
 			if (emptyAt(i)) return false;
 		}
@@ -343,7 +343,7 @@ public class Board {
 	/*
 	 * 
 	 */
-	private void addTile(Tile tile, int position){
+	protected void addTile(Tile tile, int position){
 		this.board[position / SIZE][position % SIZE] = tile;
 	}
 	
@@ -356,7 +356,7 @@ public class Board {
 	/*
 	 * 
 	 */
-	private boolean addRandomTile(){
+	protected boolean addRandomTile(){
 		Random random = new Random();
 		
 		int randint = random.nextInt(10000000) % TILES;
@@ -373,14 +373,14 @@ public class Board {
 	/*
 	 * 
 	 */
-	private void remove(int y, int x){
+	protected void remove(int y, int x){
 		board[y][x] = null;
 	}
 
 	/*
 	 * 
 	 */
-	private int tileCount(){
+	protected int tileCount(){
 		int count = 0;
 		for (int i=0; i<TILES; i++){
 			if (!emptyAt(i)) count++;
@@ -564,7 +564,7 @@ public class Board {
 	/*
 	 * 
 	 */
-	private int valAt(int y, int x){
+	protected int valAt(int y, int x){
 		if (emptyAt(y,x)) {
 			return 0;
 		}
