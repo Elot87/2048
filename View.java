@@ -53,7 +53,6 @@ public class View extends JFrame {
 	}
 
 	// method to handle key presses
-<<<<<<< Updated upstream
 	private void handleKeyPress(int keyCode) {
 		int gameOver;
 		switch (keyCode) {
@@ -87,46 +86,8 @@ public class View extends JFrame {
 				break;
 			default:
 				playSound("sounds/error.wav"); // Error sound if wrong key is pressed
-=======
-	/*
-	 * 
-	 */
-	private void handleKeyPress(int keyCode) {
-		int gameOver;
-		switch (keyCode) {
-        	case KeyEvent.VK_LEFT:
-        		if (board.update("left")) {
-        			playSound("sounds/valid move.wav");
-        		} else {
-        			playSound("sounds/error.wav");
-        		}
-        		break;
-        	case KeyEvent.VK_RIGHT:
-        		if (board.update("right")) {
-        			playSound("sounds/valid move.wav");
-        		} else {
-        			playSound("sounds/error.wav");
-        		}
-        		break;
-        	case KeyEvent.VK_UP:
-        		if (board.update("up")) {
-        			playSound("sounds/valid move.wav");
-        		} else {
-        			playSound("sounds/error.wav");
-        		}
-        		break;
-        	case KeyEvent.VK_DOWN:
-        		if (board.update("down")) {
-        			playSound("sounds/valid move.wav");
-        		} else {
-        			playSound("sounds/error.wav");
-        		}
-        		break;
-        	default:
-        		playSound("sounds/error.wav"); // Error sound if wrong key is pressed
->>>>>>> Stashed changes
 		}
-    
+		
 		// Check game over condition
 		gameOver = board.gameOverCode();
 		if (gameOver != 0) {
@@ -395,13 +356,8 @@ public class View extends JFrame {
 				numSuffix = "th";
 			}
 			
-<<<<<<< Updated upstream
 			JLabel congrats = new JLabel("Congratulations! You have the" + pos + numSuffix + " highest score!");
 			JLabel enter = new JLabel("Please enter your username to save it in leaderboard");
-=======
-			JLabel congrats = new JLabel("Congratulations! You have the " + pos + numSuffix + " highest score!");
-			JLabel enter = new JLabel("Please enter your username to save it in the leaderboard");
->>>>>>> Stashed changes
 			JTextField entryField = new JTextField();
 			
 			congrats.setBounds(0, 5*boardSize/8, boardSize, 25);
