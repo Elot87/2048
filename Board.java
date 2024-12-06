@@ -306,7 +306,7 @@ public class Board {
 						} else {
 							// there is a tile in the way...
 							// can we merge?
-							if ((valAt(y, cur) == valAt(y, cur+1)) && !mergeBoard[y][cur+1]){
+							if ((valAt(y, cur) == valAt(y, cur+1)) && !(mergeBoard[y][cur+1] || mergeBoard[y][cur])){
 								mergeBoard[y][cur+1] = true; // we can no longer merge again on this square during this shift
 								tile = new Tile(valAt(y, cur) + valAt(y, cur+1)); // new tile, twice as big
 								remove(y, cur); // merging consists of deleting the old tiles
@@ -340,7 +340,7 @@ public class Board {
 							remove(y,cur); // moving consists of deleting
 							add(tile, y, cur-1); // and placing (original object dies, but that is ok)
 						} else {
-							if ((valAt(y, cur) == valAt(y, cur-1)) && !mergeBoard[y][cur-1]){
+							if ((valAt(y, cur) == valAt(y, cur-1)) && !(mergeBoard[y][cur-1] || mergeBoard[y][cur])){
 								mergeBoard[y][cur-1] = true; // we can no longer merge again on this square during this shift
 								tile = new Tile(valAt(y, cur) + valAt(y, cur-1)); // new tile, twice as big
 								remove(y, cur); // merging consists of deleting the old tiles
@@ -374,7 +374,7 @@ public class Board {
 							remove(cur, x); // moving consists of deleting
 							add(tile, cur-1, x); // and placing (original object dies, but that is ok)
 						} else { 
-							if ((valAt(cur,x) == valAt(cur-1, x)) && !mergeBoard[cur-1][x]){
+							if ((valAt(cur,x) == valAt(cur-1, x)) && !(mergeBoard[cur-1][x] || mergeBoard[cur][x])){
 								mergeBoard[cur-1][x] = true; // we can nolonger merge again on this square during this shift
 								tile = new Tile(valAt(cur, x) + valAt(cur-1, x)); // new tile, twice as big
 								remove(cur, x); // merging consists of deleting the old tiles
@@ -407,7 +407,7 @@ public class Board {
 							remove(cur, x); // moving consists of deleting
 							add(tile, cur+1, x); // moving consists of deleting
 						} else {
-							if ((valAt(cur, x) == valAt(cur+1, x)) && !mergeBoard[cur+1][x]){
+							if ((valAt(cur, x) == valAt(cur+1, x)) && !(mergeBoard[cur+1][x] || mergeBoard[cur][x])){
 								mergeBoard[cur+1][x] = true; // we can nolonger merge again on this square during this shift
 								tile = new Tile(valAt(cur, x) + valAt(cur+1, x)); // new tile, twice as big
 								remove(cur, x); // merging consists of deleting the old tiles
