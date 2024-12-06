@@ -283,10 +283,11 @@ public class Board {
 	}
 	
 	// for future reference. please never use x and y. use rows and columns. x and y gets real confusing real fast
-	private void shiftRight(){
+	private boolean shiftRight(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
 		Tile tile;
+		boolean shifted = false;
 
 		// let x be the index of the current column
 		for (int x=SIZE-2; x>=0; x--){
@@ -307,6 +308,7 @@ public class Board {
 							// there is a tile in the way...
 							// can we merge?
 							if ((valAt(y, cur) == valAt(y, cur+1)) && !(mergeBoard[y][cur+1] || mergeBoard[y][cur])){
+								shifted = true;
 								mergeBoard[y][cur+1] = true; // we can no longer merge again on this square during this shift
 								tile = new Tile(valAt(y, cur) + valAt(y, cur+1)); // new tile, twice as big
 								remove(y, cur); // merging consists of deleting the old tiles
@@ -317,13 +319,15 @@ public class Board {
 				}
 			}
 		}
+
+		return shifted;
 	}
 
-	private void shiftLeft(){
+	private boolean shiftLeft(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
 		Tile tile;
-
+		boolean shifted = false;
 		// let x be the index of the current column
 		for (int x=1; x<SIZE; x++){
 			// let y be the index of the current row
@@ -341,6 +345,7 @@ public class Board {
 							add(tile, y, cur-1); // and placing (original object dies, but that is ok)
 						} else {
 							if ((valAt(y, cur) == valAt(y, cur-1)) && !(mergeBoard[y][cur-1] || mergeBoard[y][cur])){
+								shifted = true;
 								mergeBoard[y][cur-1] = true; // we can no longer merge again on this square during this shift
 								tile = new Tile(valAt(y, cur) + valAt(y, cur-1)); // new tile, twice as big
 								remove(y, cur); // merging consists of deleting the old tiles
@@ -351,12 +356,16 @@ public class Board {
 				}
 			}
 		}
+
+		return shifted;
 	}
 
-	private void shiftUp(){
+	private boolean shiftUp(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
 		Tile tile;
+
+		boolean shifted = false;
 
 		// let x be the index of the current column
 		for (int x=0; x<SIZE; x++){
@@ -375,6 +384,7 @@ public class Board {
 							add(tile, cur-1, x); // and placing (original object dies, but that is ok)
 						} else { 
 							if ((valAt(cur,x) == valAt(cur-1, x)) && !(mergeBoard[cur-1][x] || mergeBoard[cur][x])){
+								shifted = true;
 								mergeBoard[cur-1][x] = true; // we can nolonger merge again on this square during this shift
 								tile = new Tile(valAt(cur, x) + valAt(cur-1, x)); // new tile, twice as big
 								remove(cur, x); // merging consists of deleting the old tiles
@@ -385,12 +395,14 @@ public class Board {
 				}
 			}
 		}
+		return shifted;
 	}
 
-	private void shiftDown(){
+	private boolean shiftDown(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
 		Tile tile;
+		boolean shifted = false;
 
 		// let x be the index of the current column
 		for (int x=0; x<SIZE; x++){
@@ -408,6 +420,7 @@ public class Board {
 							add(tile, cur+1, x); // moving consists of deleting
 						} else {
 							if ((valAt(cur, x) == valAt(cur+1, x)) && !(mergeBoard[cur+1][x] || mergeBoard[cur][x])){
+								shifted = true;
 								mergeBoard[cur+1][x] = true; // we can nolonger merge again on this square during this shift
 								tile = new Tile(valAt(cur, x) + valAt(cur+1, x)); // new tile, twice as big
 								remove(cur, x); // merging consists of deleting the old tiles
@@ -418,6 +431,8 @@ public class Board {
 				}
 			}
 		}
+
+		return shifted;
 	}
 	private void remove(int y, int x){
 		board[y][x] = null;
