@@ -166,4 +166,51 @@ public class BoardTest {
         assertTrue("Tile at (0, 0) should be removed", emptyBoard.emptyAt(0, 0));
     }
 
+    @Test
+    public void testGetBoardState() {
+        emptyBoard = new Board();
+
+        // Add tiles
+        emptyBoard.add(new Tile(2), 0, 0);
+        emptyBoard.add(new Tile(4), 1, 1);
+
+        // Get board state
+        Tile[][] boardState = emptyBoard.getBoardState();
+
+        assertEquals("Tile at (0, 0) should be 2", 2, boardState[0][0].getVal());
+        assertEquals("Tile at (1, 1) should be 4", 4, boardState[1][1].getVal());
+        assertEquals("Tile at (2, 2) should be empty", 0, boardState[2][2].getVal());
+    }
+
+    @Test
+    public void testValAt() {
+        emptyBoard = new Board();
+
+        // Add tiles and verify values
+        emptyBoard.add(new Tile(2), 0, 0);
+        emptyBoard.add(new Tile(4), 1, 1);
+
+        assertEquals("Value at (0, 0) should be 2", 2, emptyBoard.valAt(0, 0));
+        assertEquals("Value at (1, 1) should be 4", 4, emptyBoard.valAt(1, 1));
+        assertEquals("Value at (2, 2) should be 0", 0, emptyBoard.valAt(2, 2));
+    }
+
+    @Test
+    public void testPrintBoard() {
+        emptyBoard = new Board();
+        emptyBoard.add(new Tile(2), 0, 0);
+
+        // Capture the output of printBoard
+        emptyBoard.printBoard();
+        // This test can be expanded with a mock or stream capture if necessary
+    }
+
+    @Test
+    public void testBoardConstructorWithSize() {
+        testBoard = new Board(6);
+
+        assertEquals("Board size should be 6x6", 6, testBoard.getSize());
+        assertEquals("Board should initialize with exactly two tiles", 2, testBoard.tileCount());
+    }
+
 }
