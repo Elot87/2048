@@ -8,7 +8,7 @@ To run the game, the following files must be compiled:
  - `View.java`
 
 Once they are comiled, the game can be played by running the compiled `View.class` file. 
-(this can be done from command line with the command `java View`. To compile java files, use the command `javac <filename>`. If java is not installed, go (https://www.java.com/download/ie_manual.jsp)[here] to install it)
+(this can be done from command line with the command `java View`. To compile java files, use the command `javac <filename>`. If java is not installed, go [here](https://www.java.com/download/ie_manual.jsp) to install it)
 
 ## The GUI
 When running the application, the user is given a few options. They can select a board size between 4 and 8 (inclusive), view the leaderboard, or start the game. If start is selected, the game will start with the selected size (default being 4). If the leaderboard is selected, players will be shown a leaderboard of past players (which starts with some players already on it, but the user is able to add their runs to the leaderboard after completion).
