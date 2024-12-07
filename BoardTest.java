@@ -225,12 +225,12 @@ public class BoardTest {
 		testBoard.add(new Tile(4), 3, 2);
 		testBoard.add(new Tile(2), 3, 3);
 		
-		assertTrue(354 == testBoard.boardValue());
+		assertTrue(testBoard.boardValue() == 354);
+		
     }
     
-    /*
     @Test
-    public void testWinGame() {
+    public void testgetScore() {
     	// initialize empty board
     	testBoard = new Board();
 		for (int row = 0; row < testBoard.getSize(); row++) {
@@ -241,9 +241,26 @@ public class BoardTest {
 			}
 		}
 		
-		testBoard.add(new Tile(2), 0, 0); // (0, 0)
+		testBoard.add(new Tile(8), 0, 0);
+		testBoard.add(new Tile(32), 0, 1);
+		testBoard.add(new Tile(16), 0, 2);
+		testBoard.add(new Tile(128), 0, 3);
+		testBoard.add(new Tile(2), 1, 0);
+		testBoard.add(new Tile(4), 1, 1);
+		testBoard.add(new Tile(64), 1, 2);
+		testBoard.add(new Tile(16), 1, 3);
+		testBoard.add(new Tile(16), 2, 0);
+		testBoard.add(new Tile(8), 2, 1);
+		testBoard.add(new Tile(16), 2, 2);
+		testBoard.add(new Tile(32), 2, 3);
+		testBoard.add(new Tile(4), 3, 0);
+		testBoard.add(new Tile(2), 3, 1);
+		testBoard.add(new Tile(4), 3, 2);
+		testBoard.add(new Tile(2), 3, 3);
+		
+		assertTrue(354 == testBoard.getScore());
+		
     }
-    */
 
     @Test
     public void testGetBoardState() {
@@ -292,4 +309,63 @@ public class BoardTest {
         assertEquals("Board should initialize with exactly two tiles", 2, testBoard.tileCount());
     }
 
+    
+    @Test
+    public void testWinGame() {
+    	// initialize empty board
+    	testBoard = new Board();
+		for (int row = 0; row < testBoard.getSize(); row++) {
+			for (int col = 0; col < testBoard.getSize(); col++) {
+				if (!testBoard.emptyAt(col, row)) {
+					testBoard.remove(col, row);
+				}
+			}
+		}
+		
+		testBoard.add(new Tile(512), 0, 0);
+		testBoard.add(new Tile(256), 0, 1);
+		testBoard.add(new Tile(128), 0, 2);
+		testBoard.add(new Tile(256), 0, 3);
+		testBoard.add(new Tile(1024), 1, 0);
+		testBoard.add(new Tile(64), 1, 1);
+		testBoard.add(new Tile(1024), 1, 3);
+		testBoard.add(new Tile(1024), 2, 0);
+		testBoard.add(new Tile(4), 2, 3);
+		
+		testBoard.update("up");
+		assertTrue(testBoard.gameOverCode() == 1);
+    }
+    
+    @Test
+    public void testLoseGame() {
+    	// initialize empty board
+    	testBoard = new Board();
+		for (int row = 0; row < testBoard.getSize(); row++) {
+			for (int col = 0; col < testBoard.getSize(); col++) {
+				if (!testBoard.emptyAt(col, row)) {
+					testBoard.remove(col, row);
+				}
+			}
+		}
+		
+		testBoard.add(new Tile(8), 0, 0);
+		testBoard.add(new Tile(32), 0, 1);
+		testBoard.add(new Tile(16), 0, 2);
+		testBoard.add(new Tile(128), 0, 3);
+		testBoard.add(new Tile(2), 1, 0);
+		testBoard.add(new Tile(4), 1, 1);
+		testBoard.add(new Tile(64), 1, 2);
+		testBoard.add(new Tile(16), 1, 3);
+		testBoard.add(new Tile(16), 2, 0);
+		testBoard.add(new Tile(8), 2, 1);
+		testBoard.add(new Tile(16), 2, 2);
+		testBoard.add(new Tile(32), 2, 3);
+		testBoard.add(new Tile(4), 3, 0);
+		testBoard.add(new Tile(2), 3, 1);
+		testBoard.add(new Tile(4), 3, 2);
+		testBoard.add(new Tile(2), 3, 3);
+		
+		assertTrue(testBoard.gameOverCode() == -1);
+    }
+    
 }
