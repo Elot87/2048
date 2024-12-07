@@ -7,7 +7,7 @@ To run the game, the following files must be compiled:
  - `Tile.java`
  - `View.java`
 
-Once they are comiled, the game can be played by running the compiled `View.class` file. 
+Once they are compiled, the game can be played by running the compiled `View.class` file. 
 (this can be done from command line with the command `java View`. To compile java files, use the command `javac <filename>`. If java is not installed, go [here](https://www.java.com/download/ie_manual.jsp) to install it)
 
 ## The GUI
