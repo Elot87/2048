@@ -15,9 +15,10 @@ public class Board {
 	private final int[] RANDOM_DISTRIBUTION = {2,2,2,4}; // 75% chance to be a 2
 	private Tile[][] board;
 	
-	/**
-	 * Constructs a new Board object with a default size 4x4 and initializes it
-	 * with 2 randomly placed tiles
+	
+	/*
+	 * Constructor for standard sized board and initializes it with 2 randomly
+	 * planed tiles
 	 */
 	public Board(){
 		SIZE = 4;
@@ -29,11 +30,10 @@ public class Board {
 		addRandomTile();	
 	}
 
-	/**
-	 * Constructs a new Board object of a given size and initializes it with 2
+	/*
+	 * Constructor for user specified board size; initializes it with 2
 	 * randomly placed tiles
-	 * 
-	 * @param size: int; dimensions of the board (between 4-8)
+  	 * @param size - size between 4 - 8
 	 */
 	public Board(int size){
 		SIZE = size;
@@ -74,7 +74,7 @@ public class Board {
 		}
 			
 		if(!shifted) {
-			return true; 
+			return false; // has to be false for correct sound to play 
 		}
 		return addRandomTile();
 	}
@@ -84,6 +84,7 @@ public class Board {
 	 * 
 	 * @return int; represents the number of tiles per row/column
 	 */
+
 	public int getSize() {
 		return SIZE;
 	}
@@ -91,7 +92,7 @@ public class Board {
 	/**
 	 * Obtains the current arrangement of tiles on the board
 	 * 
-	 * @return Tile[][]; a copy of the board
+	 * @return Tile[][]; a 2D list copy of the board
 	 */
 	public Tile[][] getBoardState(){
 		Tile[][] boardState = new Tile[SIZE][SIZE];
@@ -106,6 +107,7 @@ public class Board {
 	
 	/**
 	 * Prints a text representation of the board
+
 	 */
 	public void printBoard(){
 		int size = 5;
@@ -150,12 +152,12 @@ public class Board {
 		}
 		return -1;
 	}
-	
 
 	/**
 	 * Obtains the score of the current round
 	 * 
-	 * @return int; represents current player's score
+	 * @return int; represents current player's score (combines the val of all
+	 * tiles on the board
 	 */
 	public int getScore() {
 		int score = 0;
@@ -168,9 +170,6 @@ public class Board {
 	}
 		
 		
-
-	/* PRIVATE HELPER METHODS */
-	
 	
 	// checks if board is empty at position in row major order
 	// @pre 0 <= num < 16
