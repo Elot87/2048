@@ -16,7 +16,7 @@ public class Board {
 	private Tile[][] board;
 	
 	/*
-	 * 
+	 * constructor for standard sized board
 	 */
 	public Board(){
 		SIZE = 4;
@@ -29,9 +29,9 @@ public class Board {
 		
 	}
 
-	// method for when user wants to control size of board
 	/*
-	 * 
+	 * constructor for user designed board size
+  	 * @param size - size between 4 - 8
 	 */
 	public Board(int size){
 		SIZE = size;
@@ -44,9 +44,8 @@ public class Board {
 		
 	}
 	
-	// precondition: direction in {"right", "left", "up", "down"}
 		/*
-		 * 
+		 *  @pre direction in  {"right", "left", "up", "down"}
 		 */
 	public boolean update(String direction){
 		boolean shifted = true;
@@ -76,16 +75,15 @@ public class Board {
 	}
 	
 	/*
-	 * 
+	 * returns the side length of the board
 	 */
 	public int getSize() {
 		return SIZE;
 	}
 	
-	// for the sake of encapsulation, we should make sure that there is no way to "set" the values of a tile
-	// The original plan was to replace with a new tile on merge, and I am still going with this plan, but I haven't looked at Tile.java
+
 	/*
-	 * 
+	 * @ret board state as a 2D list of tiles
 	 */
 	public Tile[][] getBoardState(){
 		Tile[][] boardState = new Tile[SIZE][SIZE];
@@ -99,7 +97,7 @@ public class Board {
 	}
 	
 	/*
-	 * 
+	 * prints the board
 	 */
 	public void printBoard(){
 		int size = 5;
@@ -140,7 +138,7 @@ public class Board {
 	}
 	
 	/*
-	 * 
+	 * returns player's current score (combine val of all tiles on the board)
 	 */
 	public int getScore() {
 		int score = 0;
@@ -154,19 +152,15 @@ public class Board {
 		
 		
 
-	/* PRIVATE HELPER METHODS */
+
 	
 	
 	
 	
 	/*
-	 * the following all kind of do the same thing, maybe we consider
-	 * removing some to avoid falling into some kind of repeated code
-	 * antipattern
+	 * checks if board is empty at position in row major order
+	 * @pre 0 <= num < 16
 	 */
-	
-	// checks if board is empty at position in row major order
-	// @pre 0 <= num < 16
 	protected boolean emptyAt(int num){
 		return board[num / SIZE][num % SIZE] == null;
 	}
@@ -186,12 +180,11 @@ public class Board {
 	
 	
 	
-	/*
-	 * two add functions that do the same thing, we should consider removing one
-	 */
+
 	
-	/*
-	 * 
+	/* 
+ 	 * adds a tile to the board -- protected to maintain encapsulation
+	 * @pre x and y greater than equal to zero and less than SIZE
 	 */
 	protected void add(Tile tile, int y, int x){
 		board[y][x] = tile;
