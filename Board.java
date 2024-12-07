@@ -201,19 +201,9 @@ public class Board {
 	/*
 	 * 
 	 */
-	private void add(Tile tile, int y, int x){
+	protected void add(Tile tile, int y, int x){
 		board[y][x] = tile;
 	}
-	
-	/*
-	 * 
-	 */
-	protected void addTile(Tile tile, int position){
-		this.board[position / SIZE][position % SIZE] = tile;
-	}
-	
-	
-	
 	
 	// adds a random 2 or 4 tile
 	// returns false if board is full
@@ -228,7 +218,7 @@ public class Board {
 		int selector = random.nextInt(10000000) % RANDOM_DISTRIBUTION.length;
 		for (int i=0; i<TILES; i++){
 			if (this.emptyAt((randint + i) % TILES)){
-				this.addTile(new Tile(RANDOM_DISTRIBUTION[selector]), (randint + i) % TILES);
+				this.addTile(new Tile(RANDOM_DISTRIBUTION[selector]), ((randint + i) % TILES) / SIZE, ((randint + i) % TILES) % SIZE);
 				return true;
 			}
 		}
