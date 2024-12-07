@@ -69,7 +69,7 @@ public class Board {
 		}
 			
 		if(!shifted) {
-			return true; 
+			return false; // has to be false for correct sound to play 
 		}
 		return addRandomTile();
 	}
