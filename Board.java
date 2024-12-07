@@ -218,7 +218,7 @@ public class Board {
 		int selector = random.nextInt(10000000) % RANDOM_DISTRIBUTION.length;
 		for (int i=0; i<TILES; i++){
 			if (this.emptyAt((randint + i) % TILES)){
-				this.addTile(new Tile(RANDOM_DISTRIBUTION[selector]), ((randint + i) % TILES) / SIZE, ((randint + i) % TILES) % SIZE);
+				this.add(new Tile(RANDOM_DISTRIBUTION[selector]), ((randint + i) % TILES) / SIZE, ((randint + i) % TILES) % SIZE);
 				return true;
 			}
 		}

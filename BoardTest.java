@@ -21,7 +21,7 @@ public class BoardTest {
 
 	    // Fill the board
 	    for (int i = 0; i < 16; i++) {
-	    	testBoard.addTile(new Tile(2), i); 
+	    	testBoard.add(new Tile(2), i/4, i%4); 
 	    }
 
 	    assertTrue("Board should be full", testBoard.isFull());
@@ -54,7 +54,7 @@ public class BoardTest {
         assertTrue("Position 7 should be empty initially", emptyBoard.emptyAt(7));
 
         // Add a tile at position 7 and verify
-        emptyBoard.addTile(new Tile(2), 7);
+        emptyBoard.add(new Tile(2), 1, 3);
 
         assertFalse("Position 7 should not be empty after adding a tile", emptyBoard.emptyAt(7));
     }
@@ -70,8 +70,8 @@ public class BoardTest {
 			}
 		}
 		
-    	emptyBoard.addTile(new Tile(2), 0); // Add tile to (0, 0)
-    	emptyBoard.addTile(new Tile(2), 1); // Add tile to (0, 1)
+    	emptyBoard.add(new Tile(2), 0, 0); // Add tile to (0, 0)
+    	emptyBoard.add(new Tile(2), 0, 1); // Add tile to (0, 1)
 
         // Perform update to the right
         assertTrue("Update should return true for successful movement", emptyBoard.update("right"));
@@ -89,8 +89,8 @@ public class BoardTest {
 			}
 		}
 		
-		emptyBoard.addTile(new Tile(2), 0); // (0, 0)
-    	emptyBoard.addTile(new Tile(2), 1); // (0, 1)
+		emptyBoard.add(new Tile(2), 0, 0); // (0, 0)
+    	emptyBoard.add(new Tile(2), 0, 1); // (0, 1)
     	
         assertTrue("Shift rght should merge tiles", emptyBoard.update("right"));
         assertEquals("Tile at (0, 3) should be 4 after merging", 4, emptyBoard.valAt(0, 3));
@@ -107,8 +107,8 @@ public class BoardTest {
 			}
 		}
 		
-    	emptyBoard.addTile(new Tile(2), 0); // (0, 0)
-    	emptyBoard.addTile(new Tile(2), 1); // (0, 1)
+    	emptyBoard.add(new Tile(2), 0, 0); // (0, 0)
+    	emptyBoard.add(new Tile(2), 0, 1); // (0, 1)
     	
         assertTrue("Shift left should merge tiles", emptyBoard.update("left"));
         assertEquals("Tile at (0, 0) should be 4 after merging", 4, emptyBoard.valAt(0, 0));
@@ -125,8 +125,8 @@ public class BoardTest {
 			}
 		}
 		
-    	emptyBoard.addTile(new Tile(2), 0); // (0, 0)
-    	emptyBoard.addTile(new Tile(2), 4); // (1, 0)
+    	emptyBoard.add(new Tile(2), 0, 0); // (0, 0)
+    	emptyBoard.add(new Tile(2), 1, 0); // (1, 0)
     	
         assertTrue("Shift up should merge tiles", emptyBoard.update("up"));
         assertEquals("Tile at (0, 0) should be 4 after merging", 4, emptyBoard.valAt(0, 0));
@@ -143,8 +143,8 @@ public class BoardTest {
 			}
 		}
 		
-    	emptyBoard.addTile(new Tile(2), 0); // (0, 0)
-    	emptyBoard.addTile(new Tile(2), 4); // (1, 0)
+    	emptyBoard.add(new Tile(2), 0, 0); // (0, 0)
+    	emptyBoard.add(new Tile(2), 1, 0); // (1, 0)
     	
         assertTrue("Shift down should merge tiles", emptyBoard.update("down"));
         assertEquals("Tile at (3, 0) should be 4 after merging", 4, emptyBoard.valAt(3, 0));
@@ -161,7 +161,7 @@ public class BoardTest {
 			}
 		}
 		
-    	emptyBoard.addTile(new Tile(2), 0); // Add tile at (0, 0)
+    	emptyBoard.add(new Tile(2), 0, 0); // Add tile at (0, 0)
     	emptyBoard.remove(0, 0); // Remove it
         assertTrue("Tile at (0, 0) should be removed", emptyBoard.emptyAt(0, 0));
     }
