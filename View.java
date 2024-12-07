@@ -33,17 +33,11 @@ public class View extends JFrame {
 	private JLabel[] tileList;
 	private JPanel[] panelList = new JPanel[5];
 	private int boardSize;
-	
-	public static void main(String[] args) {
-		View gui = new View();
-		gui.setMainMenu();
-		gui.add(gui.getPanelList()[0]);
-		gui.setVisible(true);
-	}
-	
+
 	/*
-	 * Constructs the GUI for the current 2048 game.
-	 */
+	 * This is the constructor method that initializes the board and boardSize variables to the 
+	 * default values required for the Main menu
+	 * */
 	public View() {
 		board = new Board();
 		boardSize = 400;
@@ -52,62 +46,59 @@ public class View extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	// method to handle key presses
+	// @param
 	private void handleKeyPress(int keyCode) {
-		int gameOver;
-		switch (keyCode) {
-			case KeyEvent.VK_LEFT:
-				if (board.update("left")) {
-					playSound("sounds/valid move.wav");
-				} else {
-					playSound("sounds/error.wav");
-				}
-				break;
-			case KeyEvent.VK_RIGHT:
-				if (board.update("right")) {
-					playSound("sounds/valid move.wav");
-				} else {
-					playSound("sounds/error.wav");
-				}
-				break;
-			case KeyEvent.VK_UP:
-				if (board.update("up")) {
-            	playSound("sounds/valid move.wav");
-				} else {
-					playSound("sounds/error.wav");
-				}
-				break;
-			case KeyEvent.VK_DOWN:
-				if (board.update("down")) {
-					playSound("sounds/valid move.wav");
-				} else {
-					playSound("sounds/error.wav");
-				}
-				break;
-			default:
-				playSound("sounds/error.wav"); // Error sound if wrong key is pressed
-		}
-		
-		// Check game over condition
-		gameOver = board.gameOverCode();
-		if (gameOver != 0) {
-			if (gameOver == 1) {
-				playSound("sounds/game won.wav");
-				setUsernameEntry(true);
-			} else if (gameOver == -1) {
-				playSound("sounds/game over.wav");
-				setUsernameEntry(false);
-			}
-			switchPanels(2);
-		}
-    
-		refreshBoard(); // Update the UI after a move
+	    int gameOver;
+	    switch (keyCode) {
+	        case KeyEvent.VK_LEFT:
+	            if (board.update("left")) {
+	            playSound("sounds/valid move.wav");
+	        } else {
+	            playSound("sounds/error.wav");
+	        }
+	        break;
+	    case KeyEvent.VK_RIGHT:
+	        if (board.update("right")) {
+	            playSound("sounds/valid move.wav");
+	        } else {
+	            playSound("sounds/error.wav");
+	        }
+	        break;
+	    case KeyEvent.VK_UP:
+	        if (board.update("up")) {
+	            playSound("sounds/valid move.wav");
+	        } else {
+	            playSound("sounds/error.wav");
+	        }
+	        break;
+	    case KeyEvent.VK_DOWN:
+	        if (board.update("down")) {
+	            playSound("sounds/valid move.wav");
+	        } else {
+	            playSound("sounds/error.wav");
+	        }
+	        break;
+	    default:
+	        playSound("sounds/error.wav"); // Error sound if wrong key is pressed
+	}
+	
+	// Check game over condition
+	gameOver = board.gameOverCode();
+	if (gameOver != 0) {
+	    if (gameOver == 1) {
+	        playSound("sounds/game won.wav");
+	        setUsernameEntry(true);
+	    } else if (gameOver == -1) {
+	        playSound("sounds/game over.wav");
+	        setUsernameEntry(false);
+	    }
+	    switchPanels(2);
+	}
+	
+	refreshBoard(); // Update the UI after a move
 	}
 
 	// Method to refresh the board display
-	/*
-	 * 
-	 */
 	private void refreshBoard() {
 	    Tile[][] boardPos = board.getBoardState();
 	    for (int i = 0; i < tileList.length; i++) {
@@ -119,9 +110,6 @@ public class View extends JFrame {
 	    repaint();
 	}
 
-	/*
-	 * 
-	 */
 	private void playSound(String soundFile) {
 	    try {
 	        // Load the sound file
@@ -149,9 +137,7 @@ public class View extends JFrame {
 	    }
 	}
 	
-	/*
-	 * 
-	 */
+	
 	private void setBottomBar() {
 		
 		JPanel bottomBar = new JPanel();
@@ -161,7 +147,10 @@ public class View extends JFrame {
 		
 		JButton mainMenuButton = new JButton("Main Menu");
 		mainMenuButton.setBounds(boardSize/3 - 50, boardSize + 25, 100, 50);
-		mainMenuButton.addActionListener(click -> switchPanels(0));
+		mainMenuButton.addActionListener(click -> {
+			boardSize = 400;
+			switchPanels(0);
+			});
 		bottomBar.add(mainMenuButton);
 		
 		JButton restartButton = new JButton("Restart");
@@ -177,9 +166,6 @@ public class View extends JFrame {
 	}
 	
 	// need to add space for instruction on how to play
-	/*
-	 * 
-	 */
 	private void setGameBoard() {
 		JPanel gameBoard = new JPanel();
 		JLabel tile; int currLogVal;
@@ -188,19 +174,18 @@ public class View extends JFrame {
 		tileList = new JLabel[getBoardSize()*getBoardSize()];
 		Tile[][] boardPos = board.getBoardState();
 		for (int i = 0; i < getBoardSize()*getBoardSize(); i++) {
-			tile = new JLabel(Integer.toString(boardPos[i/getBoardSize()][i%getBoardSize()].getVal()));
-			tile.setSize(100, 100);
-			if (boardPos[i/getBoardSize()][i%getBoardSize()].getVal() == 0) {
-				currLogVal = 0; tile.setText("");
-			}
-			else {currLogVal = (int) (Math.log(boardPos[i/getBoardSize()][i%getBoardSize()].getVal())/Math.log(2));}
+			 tile = new JLabel(Integer.toString(boardPos[i/getBoardSize()][i%getBoardSize()].getVal()));
+			 tile.setSize(100, 100);
+			 tile.setFont(new Font("Impact", Font.PLAIN, 24));
+			 if (boardPos[i/getBoardSize()][i%getBoardSize()].getVal() == 0) {currLogVal = 0; tile.setText("");}
+			 else {currLogVal = (int) (Math.log(boardPos[i/getBoardSize()][i%getBoardSize()].getVal())/Math.log(2));}
 			 
-			tile.setBackground(new Color(250 - 10*currLogVal, 230 - 10*currLogVal, 210 - 10*currLogVal));
-			tile.setOpaque(true);
-			tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-			tile.setHorizontalAlignment(SwingConstants.CENTER);
-			gameBoard.add(tile);
-			tileList[i] = tile;
+			 tile.setBackground(new Color(250 - 10*currLogVal, 230 - 10*currLogVal, 210 - 10*currLogVal));
+			 tile.setOpaque(true);
+			 tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+			 tile.setHorizontalAlignment(SwingConstants.CENTER);
+			 gameBoard.add(tile);
+			 tileList[i] = tile;
 		}
 		
 		gameBoard.setFocusable(true);
@@ -211,14 +196,10 @@ public class View extends JFrame {
 	            handleKeyPress(e.getKeyCode());
 	        }
 	    });
-		
 		panelList[1] = gameBoard;
 		
 	}
 	
-	/*
-	 * 
-	 */
 	private void setMainMenu() {
 		JPanel mainMenu = new JPanel();
 		mainMenu.setBackground(new Color(255, 167, 99));
@@ -249,13 +230,11 @@ public class View extends JFrame {
 		play.addActionListener(click -> {
 			try {
 	            int newSize = Integer.parseInt(sizeInput.getText());
-	            if (newSize > 8 || newSize < 4) {
-	            	throw new NumberFormatException();
-	            }
+	            if (newSize > 8 || newSize < 4) {throw new NumberFormatException();}
 	            board = new Board(newSize);
 	            boardSize = newSize*100;
-	            setGameBoard();
 	            setBottomBar();
+	            setGameBoard();
 	            switchPanels(1);
 	        } catch (NumberFormatException e) {
 	        	System.out.println("Enter Integer between 4 & 8");
@@ -263,18 +242,16 @@ public class View extends JFrame {
 	   });
 	   
 		leaderboard.addActionListener(click -> {
-			setLeaderBoard();	
 			setBottomBar();
+			setLeaderBoard();	
 			switchPanels(3);
 		});
 	}
 	
-	/*
-	 * 
-	 */
 	private void setLeaderBoard() {
 		JPanel leaders = new JPanel(new GridLayout(11, 2));
 		leaders.setBackground(Color.CYAN);
+		leaders.setSize(boardSize, boardSize);
 		Scanner leaderFile;
 		try {
 			leaderFile = new Scanner(new File("leaderboard.txt"));
@@ -288,9 +265,9 @@ public class View extends JFrame {
 		name = new JLabel("Username");
 		score = new JLabel("High Score");
 		name.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-		name.setFont(name.getFont().deriveFont(Font.BOLD));
+		name.setFont(new Font("Impact", Font.PLAIN, 24));
 		score.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-		score.setFont(score.getFont().deriveFont(Font.BOLD));
+		score.setFont(new Font("Impact", Font.PLAIN, 24));
 		leaders.add(name);
 		leaders.add(score);
 		
@@ -316,9 +293,6 @@ public class View extends JFrame {
 		leaderFile.close();
 	}
 	
-	/*
-	 * 
-	 */
 	private void setUsernameEntry(boolean won) {
 		board.printBoard();
 		int score = board.getScore();
@@ -327,13 +301,12 @@ public class View extends JFrame {
 		JPanel username = new JPanel();
 		username.setLayout(null);
 		username.setBackground(Color.ORANGE);
+		username.setSize(boardSize, boardSize);
 		
-		JLabel go = new JLabel("GAME OVER");
+		JLabel go = new JLabel("Game Over");
 		go.setBounds(0, 25, boardSize, 100);
 		go.setHorizontalAlignment(SwingConstants.CENTER);
-		if (won) {
-			go.setText("Congrats! You Win!");
-		}
+		if (won) {go.setText("Congrats! You Win!");}
 		username.add(go);
 		
 		JLabel scoreLabel = new JLabel("Your score is " + score);
@@ -342,21 +315,8 @@ public class View extends JFrame {
 		username.add(scoreLabel);
 		
 		if (pos != -1) {
-			String numSuffix;
-			if (pos % 10 == 1) {
-				numSuffix = "st";
-			}
-			else if (pos % 10 == 2) {
-				numSuffix = "nd";
-			}
-			else if (pos % 10 == 3) {
-				numSuffix = "rd";
-			}
-			else {
-				numSuffix = "th";
-			}
 			
-			JLabel congrats = new JLabel("Congratulations! You have the" + pos + numSuffix + " highest score!");
+			JLabel congrats = new JLabel("Congratulations! You have the " + pos + " highest score!");
 			JLabel enter = new JLabel("Please enter your username to save it in leaderboard");
 			JTextField entryField = new JTextField();
 			
@@ -368,10 +328,11 @@ public class View extends JFrame {
 			entryField.setBounds(boardSize/2 - 75, 6*boardSize/8, 150, 30);
 			
 			JButton submit = new JButton("Submit");
-			submit.setBounds(boardSize/2 - 30, 7*boardSize/8, 60, 25);
+			submit.setBounds(boardSize/2 - 50, 7*boardSize/8, 100, 25);
 			submit.addActionListener(click -> {
 				if (!(entryField.getText() == null || entryField.getText().length() == 0)) {
 					addToLeaderboard(entryField.getText() + "," + score, pos);
+					boardSize = 400;
 					switchPanels(0);
 				}
 			});
@@ -381,15 +342,13 @@ public class View extends JFrame {
 			username.add(congrats);
 			username.add(submit);
 		}
-		
 		panelList[2] = username;
 	}
 	
-	/*
-	 * 
-	 */
+	
 	private void switchPanels(int panelNo) {
 		getContentPane().removeAll();
+		setLayout(null);
 		if (panelNo == 0) {
 			setSize(boardSize, boardSize);
 		} else {
@@ -406,9 +365,7 @@ public class View extends JFrame {
 		setVisible(true);
 	}
 	
-	/*
-	 * 
-	 */
+	
 	private int leaderboardPos(int score) {
 		Scanner leaderFile;
 		try {
@@ -438,19 +395,18 @@ public class View extends JFrame {
 		return pos;
 	}
 
-	/*
-	 * 
-	 */
 	private void addToLeaderboard(String toAdd, int pos) {
 		
 		Scanner leaderFile;
 		try {
 			leaderFile = new Scanner(new File("leaderboard.txt"));
 			int i = 1;
+			boolean added = false;
 			StringBuilder fileContent = new StringBuilder();
 			while (leaderFile.hasNextLine() && i <= 10) {
 				if (pos == i) {
 					fileContent.append(toAdd);
+					added = true;
 				}
 				else {
 					fileContent.append(leaderFile.nextLine());
@@ -458,7 +414,7 @@ public class View extends JFrame {
 				fileContent.append(System.lineSeparator());
 				i++;
 			}
-			if (i <= 10) {
+			if (i <= 10 && !added) {
 				fileContent.append(toAdd + System.lineSeparator());
 			}
 			leaderFile.close();
@@ -473,18 +429,22 @@ public class View extends JFrame {
 		}
 	}
 	
-	/*
-	 * 
-	 */
 	private JPanel[] getPanelList() {
 		return panelList;
 	}
 	
-	/*
-	 * 
-	 */
 	private int getBoardSize() {
 		return board.getSize();
 	}
+	
+	public static void main(String[] args) {
+		View gui = new View();
+		gui.setMainMenu();
+		gui.add(gui.getPanelList()[0]);
+		gui.setVisible(true);
+		
+		
+	}
+
 	
 }
