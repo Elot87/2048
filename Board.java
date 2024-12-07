@@ -175,14 +175,6 @@ public class Board {
 		return board[y][x] == null;
 	}
 	
-	private boolean isEmpty(){
-		for (int i=0; i<TILES; i++){
-			if (!emptyAt(i)) return false;
-		}
-
-		return true;
-	}
-	
 	protected boolean isFull(){
 		for (int i=0; i<TILES; i++){
 			if (emptyAt(i)) return false;
@@ -429,7 +421,7 @@ public class Board {
 	/*
 	 * 
 	 */
-	private int boardValue(){
+	protected int boardValue(){
 		int sum =0;
 		for (int i=0; i<TILES; i++){
 			sum += valAt(i / SIZE, i % SIZE);
