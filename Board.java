@@ -84,7 +84,6 @@ public class Board {
 	 * 
 	 * @return int; represents the number of tiles per row/column
 	 */
-
 	public int getSize() {
 		return SIZE;
 	}
