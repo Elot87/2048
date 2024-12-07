@@ -1,5 +1,4 @@
 # 2048
----
 2048 is a well known tile-sliding game where colliding tiles of equal value combine to a doubled value. Each turn, the player can slide all tiles in one of four directions (up, right, left, and down) and collisions are resolved accordingly
 
 ## Making the Game Run
