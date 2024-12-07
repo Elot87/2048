@@ -15,8 +15,9 @@ public class Board {
 	private final int[] RANDOM_DISTRIBUTION = {2,2,2,4}; // 75% chance to be a 2
 	private Tile[][] board;
 	
-	/*
-	 * 
+	/**
+	 * Constructs a new Board object with a default size 4x4 and initializes it
+	 * with 2 randomly placed tiles
 	 */
 	public Board(){
 		SIZE = 4;
@@ -25,13 +26,14 @@ public class Board {
 		
 		// Adds the first two tiles
 		addRandomTile();
-		addRandomTile();
-		
+		addRandomTile();	
 	}
 
-	// method for when user wants to control size of board
-	/*
+	/**
+	 * Constructs a new Board object of a given size and initializes it with 2
+	 * randomly placed tiles
 	 * 
+	 * @param size: int; dimensions of the board (between 4-8)
 	 */
 	public Board(int size){
 		SIZE = size;
@@ -41,13 +43,15 @@ public class Board {
 		// Adds the first two tiles
 		addRandomTile();
 		addRandomTile();
-		
 	}
 	
-	// precondition: direction in {"right", "left", "up", "down"}
-		/*
-		 * 
-		 */
+	/**
+	 * Updates the board based on a given direction to merge like tiles
+	 * 
+	 * @pre direction must be one of four options {"right", "left", "up", "down"}
+	 * @param direction: String; indicates the direction to shift the tiles
+	 * @return boolean; whether the board could be updated
+	 */
 	public boolean update(String direction){
 		boolean shifted = true;
 		switch (direction){
@@ -75,17 +79,19 @@ public class Board {
 		return addRandomTile();
 	}
 	
-	/*
+	/**
+	 * Obtains the dimensions of the board
 	 * 
+	 * @return int; represents the number of tiles per row/column
 	 */
 	public int getSize() {
 		return SIZE;
 	}
 	
-	// for the sake of encapsulation, we should make sure that there is no way to "set" the values of a tile
-	// The original plan was to replace with a new tile on merge, and I am still going with this plan, but I haven't looked at Tile.java
-	/*
+	/**
+	 * Obtains the current arrangement of tiles on the board
 	 * 
+	 * @return Tile[][]; a copy of the board
 	 */
 	public Tile[][] getBoardState(){
 		Tile[][] boardState = new Tile[SIZE][SIZE];
@@ -98,8 +104,8 @@ public class Board {
 		return boardState;
 	}
 	
-	/*
-	 * 
+	/**
+	 * Prints a text representation of the board
 	 */
 	public void printBoard(){
 		int size = 5;
@@ -117,8 +123,14 @@ public class Board {
 		}
 	}
 	
-	/*
+
+	/**
+	 * Determines if the game has concluded; the user has won by achieving a 2048
+	 * tile, or the board has filled with no possible moves
 	 * 
+	 * @return 1 if there is a 2048 tile, 0 if the tiles can be shifted and the
+	 * game can continue, -1 if the board has filled and there are no possible
+	 * merges
 	 */
 	public int gameOverCode() {	
 		for (int i = 0; i < TILES; i++) {
@@ -139,8 +151,11 @@ public class Board {
 		return -1;
 	}
 	
-	/*
+
+	/**
+	 * Obtains the score of the current round
 	 * 
+	 * @return int; represents current player's score
 	 */
 	public int getScore() {
 		int score = 0;
@@ -157,24 +172,18 @@ public class Board {
 	/* PRIVATE HELPER METHODS */
 	
 	
-	
-	
-	/*
-	 * the following all kind of do the same thing, maybe we consider
-	 * removing some to avoid falling into some kind of repeated code
-	 * antipattern
-	 */
-	
 	// checks if board is empty at position in row major order
 	// @pre 0 <= num < 16
 	protected boolean emptyAt(int num){
 		return board[num / SIZE][num % SIZE] == null;
 	}
 	
+	// determines if a particular tile position is empty
 	protected boolean emptyAt(int y, int x){
 		return board[y][x] == null;
 	}
 	
+	// determines if the board is full
 	protected boolean isFull(){
 		for (int i=0; i<TILES; i++){
 			if (emptyAt(i)) return false;
@@ -183,26 +192,12 @@ public class Board {
 		return true;
 	}
 		
-	
-	
-	
-	/*
-	 * two add functions that do the same thing, we should consider removing one
-	 */
-	
-	/*
-	 * 
-	 */
+	// adds a tile to a specified position on the board
 	protected void add(Tile tile, int y, int x){
 		board[y][x] = tile;
 	}
 	
-	// adds a random 2 or 4 tile
-	// returns false if board is full
-	// work in progress
-	/*
-	 * 
-	 */
+	// adds 2 or 4 tile to a random position on the board
 	protected boolean addRandomTile(){
 		Random random = new Random();
 		
@@ -217,16 +212,12 @@ public class Board {
 		return false;
 	}
 	
-	/*
-	 * 
-	 */
+	// removes the tile at a specified position on the board
 	protected void remove(int y, int x){
 		board[y][x] = null;
 	}
 
-	/*
-	 * 
-	 */
+	// obtains the number of tiles currently at play on the board
 	protected int tileCount(){
 		int count = 0;
 		for (int i=0; i<TILES; i++){
@@ -235,10 +226,8 @@ public class Board {
 		return count;
 	}
 
-	// for future reference. please never use x and y. use rows and columns. x and y gets real confusing real fast
-	/*
-	 * 
-	 */
+	// shifts all current tiles on the board to the right, if possible, and 
+	// merging when necessary
 	private boolean shiftRight(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
@@ -279,9 +268,8 @@ public class Board {
 		return shifted;
 	}
 
-	/*
-	 * 
-	 */
+	// shifts all current tiles on the board to the left, if possible, and 
+	// merging when necessary
 	private boolean shiftLeft(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
@@ -319,9 +307,8 @@ public class Board {
 		return shifted;
 	}
 
-	/*
-	 * 
-	 */
+	// shifts all current tiles on the board upwards, if possible, and
+	// merging when necessary
 	private boolean shiftUp(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
@@ -361,9 +348,8 @@ public class Board {
 		return shifted;
 	}
 
-	/*
-	 * 
-	 */
+	// shifts all current tiles on the board downwards, if possible, and
+	// merging when necessary
 	private boolean shiftDown(){
 		boolean[][] mergeBoard = new boolean[SIZE][SIZE];
 		int cur;
@@ -401,16 +387,13 @@ public class Board {
 		return shifted;
 	}
 	
-	/*
-	 * 
-	 */
+	// determines if a specified position is available with the current board's
+	// dimensions
 	private boolean exists(int y, int x){
 		return (y < SIZE && y >= 0 && x < SIZE && x >= 0);
 	}
 
-	/*
-	 * 
-	 */
+	// obtains the value of the tile at a specified position on the board
 	protected int valAt(int y, int x){
 		if (emptyAt(y,x)) {
 			return 0;
@@ -418,9 +401,7 @@ public class Board {
 		return board[y][x].getVal();
 	}
 	
-	/*
-	 * 
-	 */
+	// calculates the sum of all current tiles on the board
 	protected int boardValue(){
 		int sum =0;
 		for (int i=0; i<TILES; i++){
