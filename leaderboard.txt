@@ -4,3 +4,7 @@ yankees , 2750
 cardinals , 2590
 sillygoose,638
 baby,238
+gim, 230
+freudianTheory, 200
+Germany, 120
+LastPos, 50
